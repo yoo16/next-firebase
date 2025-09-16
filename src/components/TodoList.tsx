@@ -29,10 +29,10 @@ export default function TodoList() {
     const [todos, setTodos] = useState<Todo[]>([]);
 
     useEffect(() => {
-        setTodos([
-            { id: '1', text: 'デモ用のタスク1', done: false, uid: 'uid', createdAt: new Date() },
-            { id: '2', text: 'デモ用のタスク2', done: true, uid: 'uid', createdAt: new Date() },
-        ]);
+        // setTodos([
+        //     { id: '1', text: 'デモ用のタスク1', done: false, uid: 'uid', createdAt: new Date() },
+        //     { id: '2', text: 'デモ用のタスク2', done: true, uid: 'uid', createdAt: new Date() },
+        // ]);
     }, []);
 
     // useEffect(() => {
