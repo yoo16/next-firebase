@@ -29,43 +29,50 @@ export default function TodoList() {
     const [todos, setTodos] = useState<Todo[]>([]);
 
     useEffect(() => {
-        if (!user) return;
+        setTodos([
+            { id: '1', text: 'デモ用のタスク1', done: false, uid: 'uid', createdAt: new Date() },
+            { id: '2', text: 'デモ用のタスク2', done: true, uid: 'uid', createdAt: new Date() },
+        ]);
+    }, []);
 
-        const q = query(
-            collection(db(), 'todos'),
-            where('uid', '==', user.uid),
-            orderBy('createdAt', 'desc')
-        );
+    // useEffect(() => {
+    //     if (!user) return;
 
-        const unsub = onSnapshot(q, (snap) => {
-            const list: Todo[] = snap.docs.map((d) => ({
-                id: d.id,
-                ...(d.data() as TodoData),
-            }));
-            setTodos(list);
-        });
+    //     const q = query(
+    //         collection(db(), 'todos'),
+    //         where('uid', '==', user.uid),
+    //         orderBy('createdAt', 'desc')
+    //     );
 
-        return () => unsub();
-    }, [user]);
+    //     const unsub = onSnapshot(q, (snap) => {
+    //         const list: Todo[] = snap.docs.map((d) => ({
+    //             id: d.id,
+    //             ...(d.data() as TodoData),
+    //         }));
+    //         setTodos(list);
+    //     });
+
+    //     return () => unsub();
+    // }, [user]);
 
     const toggle = async (t: Todo) => {
-        await updateDoc(doc(db(), 'todos', t.id), { done: !t.done });
+        // await updateDoc(doc(db(), 'todos', t.id), { done: !t.done });
     };
 
     const remove = async (t: Todo) => {
-        await deleteDoc(doc(db(), 'todos', t.id));
+        // await deleteDoc(doc(db(), 'todos', t.id));
     };
 
-    if (!user) {
-        return (
-            <p className="px-3 py-2 text-sm text-neutral-500">
-                ログインするとタスクを確認できます
-            </p>
-        );
-    }
+    // if (!user) {
+    //     return (
+    //         <p className="px-3 py-2 text-sm text-neutral-500">
+    //             ログインするとタスクを確認できます
+    //         </p>
+    //     );
+    // }
 
     return (
-        <ul className="divide-y rounded border">
+        <ul className="divide-y rounded border border-gray-300">
             {todos.length === 0 && (
                 <li className="px-3 py-2 text-sm text-neutral-500">
                     まだ何もありません
@@ -75,7 +82,7 @@ export default function TodoList() {
             {todos.map((t) => (
                 <li
                     key={t.id}
-                    className="flex items-center justify-between px-3 py-2"
+                    className="flex items-center justify-between px-3 py-2 text-gray-500 border-b border-gray-300 last:border-0"
                 >
                     <label className="flex items-center gap-2">
                         <input
