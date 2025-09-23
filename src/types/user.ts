@@ -7,7 +7,19 @@ export type UserData = {
     updatedAt: Date;       // 更新日時
 };
 
-// Firestoreから取得した際にドキュメントIDを持つ型
-export type UserDocument = UserData & {
-    id: string;            // Firestore ドキュメントID
+export type UserProfile = {
+    uid: string;
+
+    // Firebase Auth 由来
+    displayName: string;
+    email: string;
+    photoURL: string;
+
+    // アプリ固有プロフィール
+    name: string;
+    birthday: string;
+    profile: string;
+
+    createdAt: Date | null;   // Firestore Timestamp をそのまま使うなら Timestamp 型でもOK
+    updatedAt: Date | null;
 };
