@@ -11,7 +11,7 @@ export default function AppPage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.replace('/'); // 履歴を残さずトップへ
+            router.replace('/'); 
         }
     }, [user, loading, router]);
 

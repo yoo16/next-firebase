@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <h1 className="text-xl font-semibold">Next.js + Firebase</h1>
           <div>
             <Link className="text-sm px-2" href="/">Home</Link>
+            <Link className="text-sm px-2" href="/user">User</Link>
             <Link className="text-sm px-2" href="/todo">Todo</Link>
           </div>
         </header>

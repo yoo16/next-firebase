@@ -10,13 +10,14 @@ export default function TodoForm() {
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // if (!user || !text.trim()) return;
-        // await addDoc(collection(db(), 'todos'), {
-        //     uid: user.uid,
-        //     text: text.trim(),
-        //     done: false,
-        //     createdAt: serverTimestamp(),
-        // });
+        if (!user || !text.trim()) return;
+        console.log(user.uid, text);
+        await addDoc(collection(db(), 'todos'), {
+            uid: user.uid,
+            text: text.trim(),
+            done: false,
+            createdAt: serverTimestamp(),
+        });
         setText('');
     };
 
@@ -28,7 +29,7 @@ export default function TodoForm() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
             />
-            <button className="rounded-lg px-4 py-2 border border-gray-300" type="submit">追加</button>
+            <button className="rounded-lg px-4 py-2 border bg-sky-500 text-white" type="submit">追加</button>
         </form>
     );
 }

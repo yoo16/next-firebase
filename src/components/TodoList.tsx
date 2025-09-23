@@ -35,41 +35,41 @@ export default function TodoList() {
         // ]);
     }, []);
 
-    // useEffect(() => {
-    //     if (!user) return;
+    useEffect(() => {
+        if (!user) return;
 
-    //     const q = query(
-    //         collection(db(), 'todos'),
-    //         where('uid', '==', user.uid),
-    //         orderBy('createdAt', 'desc')
-    //     );
+        const q = query(
+            collection(db(), 'todos'),
+            where('uid', '==', user.uid),
+            orderBy('createdAt', 'desc')
+        );
 
-    //     const unsub = onSnapshot(q, (snap) => {
-    //         const list: Todo[] = snap.docs.map((d) => ({
-    //             id: d.id,
-    //             ...(d.data() as TodoData),
-    //         }));
-    //         setTodos(list);
-    //     });
+        const unsub = onSnapshot(q, (snap) => {
+            const list: Todo[] = snap.docs.map((d) => ({
+                id: d.id,
+                ...(d.data() as TodoData),
+            }));
+            setTodos(list);
+        });
 
-    //     return () => unsub();
-    // }, [user]);
+        return () => unsub();
+    }, [user]);
 
     const toggle = async (t: Todo) => {
-        // await updateDoc(doc(db(), 'todos', t.id), { done: !t.done });
+        await updateDoc(doc(db(), 'todos', t.id), { done: !t.done });
     };
 
     const remove = async (t: Todo) => {
-        // await deleteDoc(doc(db(), 'todos', t.id));
+        await deleteDoc(doc(db(), 'todos', t.id));
     };
 
-    // if (!user) {
-    //     return (
-    //         <p className="px-3 py-2 text-sm text-neutral-500">
-    //             ログインするとタスクを確認できます
-    //         </p>
-    //     );
-    // }
+    if (!user) {
+        return (
+            <p className="px-3 py-2 text-sm text-neutral-500">
+                ログインするとタスクを確認できます
+            </p>
+        );
+    }
 
     return (
         <ul className="divide-y rounded border border-gray-300">

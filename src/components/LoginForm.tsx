@@ -1,13 +1,32 @@
 'use client';
-import { auth } from '@/lib/firebase.client';
-import { GoogleAuthProvider, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase.client';
+import { GoogleAuthProvider, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, User } from 'firebase/auth';
 import { useState } from 'react';
 import { FirebaseError } from 'firebase/app';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [msg, setMsg] = useState<string>('');
+
+    // Firestoreにユーザーを保存する関数
+    const saveUserToFirestore = async (user: User) => {
+        const userRef = doc(db(), 'users', user.uid);
+        await setDoc(
+            userRef,
+            {
+                uid: user.uid,
+                displayName: user.displayName || '',
+                email: user.email || '',
+                photoURL: user.photoURL || '',
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
+            },
+            { merge: true }
+        );
+    };
 
     const showError = (e: unknown) => {
         if (e instanceof FirebaseError) {
@@ -20,7 +39,8 @@ export default function LoginForm() {
     const loginGoogle = async () => {
         setMsg('Google Login');
         try {
-            await signInWithPopup(auth(), new GoogleAuthProvider());
+            const result = await signInWithPopup(auth(), new GoogleAuthProvider());
+            await saveUserToFirestore(result.user);
         } catch (e: unknown) {
             showError(e);
         }
